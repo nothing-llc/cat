@@ -5,7 +5,7 @@ space=$(eval) $(eval)
 comma=,
 logentries=$(subst $(space),$(comma),$(entries))
 
-log.pdf: log.tex references.bib $(entries)
+log.pdf: log.tex references.bib $(entries) $(wildcard figures/**)
 	latexmk \
 		-auxdir=aux/ -outdir=out/ \
 		-usepretex='\def\logentries{$(logentries)}' \

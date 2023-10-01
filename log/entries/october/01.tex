@@ -19,6 +19,23 @@ interest:
 		\caption{a class-E amplifier.}
 		\label{fig:class-e-from-article}
 	\end{figure}
+
+	i have a slight advantage in that i know about these amplifiers from
+	elsewhere\ldots\ but here's how they work anyway: the load network
+	comprising C2, C3, C4, C5, L2, L3, \amp L4 (basically everything
+	hanging off Q1's drain) is resonant somewhere near the transmission
+	frequency. the network is carefully damped, so that when Q1 switches
+	off, the voltage across it rises, then neatly falls back to zero just
+	by the next turn-on. figure \ref{fig:class-e-vi}, also from the
+	article, shows this.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.7\textwidth]{class-e-vi.png}
+		\caption{class-E voltage \amp current.}
+		\label{fig:class-e-vi}
+	\end{figure}
+
 \end{enumerate}
 
 \subsection*{code}
