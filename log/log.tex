@@ -1,0 +1,29 @@
+\documentclass[10pt]{article}
+\usepackage[margin=1.6in]{geometry}
+
+\usepackage{xstring}
+
+\newcommand{\addlogentry}[1]{%
+	\section*{%
+		\protect\StrBetween[1,2]{#1}{/}{/}\ %
+		\protect\StrBetween[2,1]{#1}{/}{.tex}%
+	}
+	\input{#1}
+}
+
+\title{cat van west's activity log}
+\author{(really doesn't need an author line)}
+\date{autumn, `23}
+
+\begin{document}
+\maketitle
+
+\makeatletter
+\@for\logentry:={\logentries}\do{
+	\makeatother
+
+	\addlogentry{\logentry}
+}
+\makeatother
+
+\end{document}
