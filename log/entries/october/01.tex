@@ -81,7 +81,27 @@ interest:
 
 	the output of the amplifier is then fed into a switchable low-pass lc
 	filter network, presumably to eliminate higher-order harmonics in its
-	output.
+	output. this amplifier is, notably, a \emph{broadband} one!
+
+	\item \autocite[p.~1 dash 19]{rf-amp-classics}: ``A 1.8 to 54 MHz
+	5-Watt Amplifier'' uses a much simpler (and probably less efficient)
+	topology than either of the above, using simply a single \mosfet
+	class-A with an inductive choke as the load. the schematic is
+	reproduced in figure \ref{fig:five-watt-article}.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.9\textwidth]{five-watt-article.png}
+		\caption{a class-A linear amplifier.}
+		\label{fig:five-watt-article}
+	\end{figure}
+
+	the essential components of this amplifier are \pr q2 and \pr rfc1,
+	which form a current source against a very high impedance at signal
+	frequencies. this is probably the simplest \rf amplifier design, and
+	likely the one that we'll use for low- and intermediate-power stages
+	since it's easy and linear.
+
 \end{enumerate}
 
 \subsection*{code}
