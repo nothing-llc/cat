@@ -1,14 +1,27 @@
 \documentclass[10pt]{article}
 \usepackage[letterpaper, total={4.5in, 8in}]{geometry}
 
-\usepackage{fontspec}
+\usepackage{float}
+\usepackage{hyperref}
 \usepackage{xspace}
 \usepackage{xstring}
 
+\usepackage{graphicx}
+\graphicspath{{figures/october/}}
+
+\usepackage[backend=biber,style=ieee,hyperref=true]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{fontspec}
 \fontspec{baskervaldx}
 \setmainfont[Numbers=OldStyle]{baskervaldx}
+\setmonofont[Scale=.9]{Courier New}
+
+\renewcommand{\figurename}{fig.}
 
 \newcommand{\amp}{\&\xspace}
+\newcommand{\arrl}{\textsc{arrl}\xspace}
+\newcommand{\rf}{\textsc{rf}\xspace}
 
 \newcommand{\addlogentry}[1]{%
 	\section*{%
@@ -17,6 +30,8 @@
 	}
 	\input{#1}
 }
+
+\newcommand{\localfile}[1]{\texttt{\href{run:#1}{#1}}}
 
 \title{cat van west's activity log}
 \author{(really doesn't need an author line)}
@@ -32,5 +47,7 @@
 	\addlogentry{\logentry}
 }
 \makeatother
+
+\printbibliography
 
 \end{document}
