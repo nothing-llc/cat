@@ -22,12 +22,13 @@ interest:
 
 	i have a slight advantage in that i know about these amplifiers from
 	elsewhere\ldots\ but here's how they work anyway: the load network
-	comprising C2, C3, C4, C5, L2, L3, \amp L4 (basically everything
-	hanging off Q1's drain) is resonant somewhere near the transmission
-	frequency. the network is carefully damped, so that when Q1 switches
-	off, the voltage across it rises, then neatly falls back to zero just
-	by the next turn-on. figure \ref{fig:class-e-vi}, also from the
-	article, shows this.
+	comprising \pr{c2, c3, c4, c5, l2, l3, \amp l4} (basically everything
+	hanging off \pr q1's drain) is resonant somewhere near the transmission
+	frequency. the network is carefully damped, so that when \pr q1
+	switches off, the voltage across it rises, then neatly falls back to
+	zero just by the next turn-on. figure \ref{fig:class-e-vi}, also from
+	the article, shows this. some of \pr q1's drain network also filters
+	the output so the amp doesn't pollute the spectrum.
 
 	\begin{figure}[H]
 		\centering
@@ -36,6 +37,51 @@ interest:
 		\label{fig:class-e-vi}
 	\end{figure}
 
+	\item \autocite[p.~2 dash 5]{rf-amp-classics}: this article, ``A 300-W
+	MOSFET Linear Amplifier for 50 MHz,'' contains another amplifier
+	topology: the push-pull kind. its schematic is reproduced in figure
+	\ref{fig:push-pull-article}.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.9\textwidth]{push-pull-article.png}
+		\caption{push-pull amplifier schematic.}
+		\label{fig:push-pull-article}
+	\end{figure}
+
+	the article does not describe how this amplifier works in detail. as
+	far as i can tell: \pr t1 feeds \pr q1 \amp \pr q2 with precisely
+	out-of-phase drive signals through matching transmission line segments
+	\pr{tl1 \amp tl2} (chosen to impedance-match their gates to whatever
+	the input transformer impedance is). \pr q1 \amp \pr q2 feed \pr t2
+	\amp \pr t3, drawing out-of-phase current pulses from \pr t2 to produce
+	an \rf signal out at \pr j2.
+
+	notably, the efficiency claimed by this article is \textasciitilde 50\%
+	at most, much less than the 90 \% efficiency of class-E.
+
+	\item \autocite[p.~1 dash 2]{rf-amp-classics}: ``An Easy-to-Build
+	25-Watt MF/HF Amplifier contains a push-pull amp which is significantly
+	easier to understand! part of its schematic is reproduced in figure
+	\ref{fig:easy-hf-article}.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.8\textwidth]{easy-hf-article.png}
+		\caption{an easier push-pull amplifier.}
+		\label{fig:easy-hf-article}
+	\end{figure}
+
+	it seems that\ldots\ \pr t1 converts a single-ended input signal into a
+	differential signal, which is used to feed the dual-\jfet block \pr u1.
+	each \jfet produces a signal exactly out of phase with the other, which
+	are fed into opposite ends of \pr t2's primary winding. each \jfet will
+	then cause \pr t2's output to swing positive or negative, resulting in
+	an amplified input signal.
+
+	the output of the amplifier is then fed into a switchable low-pass lc
+	filter network, presumably to eliminate higher-order harmonics in its
+	output.
 \end{enumerate}
 
 \subsection*{code}
