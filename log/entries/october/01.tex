@@ -104,8 +104,12 @@ interest:
 \end{enumerate}
 
 in addition to the above, i also skimmed razavi's chapter in
-\autocite{rf-microelectronics} on phase-locked loops for inspiration about
-generating a reference frequency. if we are not to get in trouble with the \fcc
+\autocite{rf-microelectronics} (same place, \localfile{../research/books/}) on
+phase-locked loops for inspiration about generating a reference frequency. if
+we are not to get in trouble with the \fcc, we'll need a stable oscillator. my
+idea right now is to use a \textasciitilde 50 kHz local crystal oscillator with
+a \pll to increase its frequency in 50 kHz steps around 14 MHz, which should
+give stability in the single Hz (averaged) and tunability.
 
 \subsection*{code}
 i typeset this log and wrote the first two entries.
