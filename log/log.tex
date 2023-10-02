@@ -3,6 +3,7 @@
 
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{tikz}
 \usepackage{xspace}
 \usepackage{xstring}
 
@@ -22,10 +23,25 @@
 \newcommand{\amp}{\textit{\&}\xspace}
 \newcommand{\pr}{\textsc}
 
-\newcommand{\arrl}{\textsc{arrl}\xspace}
-\newcommand{\jfet}{\textsc{jfet}\xspace}
-\newcommand{\mosfet}{\textsc{mosfet}\xspace}
-\newcommand{\rf}{\textsc{rf}\xspace}
+% create a bunch of abbreviation commands; see
+% https://tex.stackexchange.com/questions/555670/how-to-turn-string-into-command
+% and
+% https://tex.stackexchange.com/questions/51733/global-renewcommand-equivalent-of-global-def
+\def\abbrevs{arrl,jfet,mosfet,rf,fcc,pll}
+
+\makeatletter
+\def\gnewcommand{\g@star@or@long\new@command}
+\def\g@star@or@long#1{%
+  \@ifstar{\let\l@ngrel@x\global#1}{\def\l@ngrel@x{\long\global}#1}}
+\makeatother
+
+\foreach \abbrev in \abbrevs {
+	% this took way too fucking long lmao
+	\edef\commdef{\csname \abbrev\endcsname{%
+		\noexpand\textsc{\abbrev}\noexpand\xspace%
+	}}
+	\expandafter\gnewcommand\commdef
+}
 
 \newcommand{\addlogentry}[1]{%
 	\section*{%
