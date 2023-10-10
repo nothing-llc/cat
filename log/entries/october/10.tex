@@ -1,6 +1,7 @@
 \subsection*{research}
 i read the chapter in \autocite{experimental-rf} on oscillator design and
-frequency synthesis, for a general survey of simple \vco design.
+frequency synthesis, for a general survey of simple \vco design. figures in
+this section are from that book.
 
 the first oscillator types discussed were simple \lc oscillators (hartley,
 colpitts, clapp, seiler). the relevant figure from \autocite{experimental-rf}
@@ -46,4 +47,12 @@ erratic and not that useful, but incorporating the oscillator into a \pll to
 achieve phase-locking is quite feasible. frequency synthesis is possible via
 digital frequency division before direct application to a phase-frequency
 detector, and is likely what we'll be doing for the project as it combines
-reliable tunability with oscillator stability.
+reliable tunability with oscillator stability. a simple divide-by-n \pll is
+shown in figure \ref{fig:simple-div-pll}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.9\textwidth]{simple-div-pll.png}
+	\caption{a simple \pll permitting fractional frequency ratios.}
+	\label{fig:simple-div-pll}
+\end{figure}
