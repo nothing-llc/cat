@@ -6,7 +6,7 @@ comma=,
 logentries=$(subst $(space),$(comma),$(entries))
 
 log.pdf: log.tex references.bib $(entries) $(wildcard figures/**)
-	latexmk \
+	latexmk -g \
 		-auxdir=aux/ -outdir=out/ \
 		-usepretex='\def\logentries{$(logentries)}' \
 		$<
