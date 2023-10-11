@@ -62,3 +62,30 @@ most (if not all) frequency synthesis chips on digikey \amp mouser appeared to
 be serial-programmable or one-time-programmable, which would not be as useful
 for us (not to mention they would obscure the function of the oscillator and
 prevent us learning).
+
+after a great deal of searching, i identified a few candidate parts:
+\begin{enumerate}
+	\item
+	\href{https://www.digikey.com/en/products/detail/texas-instruments/CD74HC4046AE/376781}{\textsc{cd74hc4046ae}}:
+	candidate for a phase detector and \vco. would require a divider. the
+	link is to a through-hole part; the \smd equivalent is the
+	\href{https://www.digikey.com/en/products/detail/texas-instruments/CD74HC4046AM96/555822}{\textsc{cd74hc4046am96}}.
+
+	\item
+	\href{https://www.digikey.com/en/products/detail/texas-instruments/CD4059AM/1691226}{\textsc{cd4059am}}:
+	frequency divider, ratio of 3 to 15999. would work well in combination
+	with the above.
+
+	\item
+	\href{https://www.digikey.com/en/products/detail/analog-devices-inc/ADF4153BRUZ/820043}{\textsc{adf4153bruz}}:
+	candidate for a frequency synthesizer and phase detector. frequency
+	change via serial in only. would require an oscillator and
+	microcontroller.
+
+	\item
+	\href{https://www.digikey.com/en/products/detail/texas-instruments/CDCE906PWR/1508159}{\textsc{cdce906pwr}}:
+	versatile frequency synth. contains multiple {\pll}s and finishing
+	dividers in a single package. simple. requires an external crystal and
+	microcontroller (for initial programming). six outputs, hot-swapping
+	between could work for digital \fm transmission.
+\end{enumerate}
