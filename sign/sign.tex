@@ -9,8 +9,12 @@
 \usepackage{fontspec}
 \newfontfamily\oefamily{Lobster Two}
 
+\usepackage{pgfornament}
+\usepackage{graphicx}
+
 \begin{document}
 
+% main title
 \textblockorigin{.2in}{.2in}
 
 \begin{textblock}{0}(0.03, 0)
@@ -23,6 +27,10 @@
 
 \begin{textblock}{0}(0, .13)
 	\oefamily\itshape\large adio
+\end{textblock}
+
+\begin{textblock}{0}(0, .3)
+	\scalebox{.3}{\pgfornament[width=1in]{83}}
 \end{textblock}
 
 %Evan Murphy, Jeongwoo Yoon, Jin Wook Lee, Thomas Coor, Catherine Van West
