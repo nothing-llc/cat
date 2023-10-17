@@ -1,8 +1,25 @@
-\documentclass[12pt]{minimal}
-\usepackage[letterpaper,landscape,margin=2in]{geometry}
+\documentclass[12pt]{article}
+\usepackage[paperheight=1in,paperwidth=1.2941in,margin=.05in]{geometry}
+
+\usepackage[absolute]{textpos}
+\TPGrid[0in,0in]{5}{5}
+
+\pagenumbering{gobble}
+
+\usepackage{fontspec}
+\newfontfamily\oefamily{Lobster Two}
 
 \begin{document}
-HAM Radio
+\TPShowGrid{5}{5}
 
-Evan Murphy, Jeongwoo Yoon, Jin Wook Lee, Thomas Coor, Catherine Van West
+\begin{center}
+	\vspace*{\fill}
+	\oefamily\itshape
+	\begin{textblock}{5}(0,0)
+		{\Huge R}\vspace*{1em}adio
+	\end{textblock}
+	\vspace*{\fill}
+\end{center}
+
+%Evan Murphy, Jeongwoo Yoon, Jin Wook Lee, Thomas Coor, Catherine Van West
 \end{document}
