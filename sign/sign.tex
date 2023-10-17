@@ -5,6 +5,7 @@
 \TPGrid{1}{1}
 
 \pagenumbering{gobble}
+\setlength{\parindent}{0pt}
 
 \usepackage{fontspec}
 \newfontfamily\oefamily{Lobster Two}
@@ -15,10 +16,10 @@
 \begin{document}
 
 % main title
-\textblockorigin{.2in}{.2in}
+\textblockorigin{.35in}{.32in}
 
-\begin{textblock}{0}(0.03, 0)
-	\oefamily\itshape\scriptsize HAM
+\begin{textblock}{1}(-.05, 0.01)
+	\oefamily\itshape\tiny Mixed-Signal
 \end{textblock}
 
 \begin{textblock}{0}(-0.18, .12)
@@ -33,5 +34,16 @@
 	\scalebox{.3}{\pgfornament[width=1in]{83}}
 \end{textblock}
 
-%Evan Murphy, Jeongwoo Yoon, Jin Wook Lee, Thomas Coor, Catherine Van West
+\textblockorigin{.8in}{.3in}
+
+\begin{textblock}{1}(0, 0)
+	\tiny\oefamily
+
+	\scalebox{.6}{Evan Murphy} \\
+	\scalebox{.6}{Jeongwoo Yoon} \\
+	\scalebox{.6}{Jin Wook Lee} \\
+	\scalebox{.6}{Thomas Coor} \\
+	\scalebox{.6}{Catherine Van West}
+\end{textblock}
+
 \end{document}
