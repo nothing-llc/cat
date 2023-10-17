@@ -1,8 +1,8 @@
 \documentclass[12pt]{article}
-\usepackage[paperheight=1in,paperwidth=1.2941in,margin=.05in]{geometry}
+\usepackage[paperheight=1in,paperwidth=1.2941in]{geometry}
 
 \usepackage[absolute]{textpos}
-\TPGrid[0in,0in]{5}{5}
+\TPGrid{1}{1}
 
 \pagenumbering{gobble}
 
@@ -10,16 +10,14 @@
 \newfontfamily\oefamily{Lobster Two}
 
 \begin{document}
-\TPShowGrid{5}{5}
 
-\begin{center}
-	\vspace*{\fill}
-	\oefamily\itshape
-	\begin{textblock}{5}(0,0)
-		{\Huge R}\vspace*{1em}adio
-	\end{textblock}
-	\vspace*{\fill}
-\end{center}
+\begin{textblock}{0}(0.12, .35)
+	\oefamily\itshape\Huge R
+\end{textblock}
+
+\begin{textblock}{0}(0.30, .36)
+	\oefamily\itshape\large adio
+\end{textblock}
 
 %Evan Murphy, Jeongwoo Yoon, Jin Wook Lee, Thomas Coor, Catherine Van West
 \end{document}
