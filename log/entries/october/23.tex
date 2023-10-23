@@ -14,3 +14,10 @@ schematic is given in figure \ref{fig:ring-mod-spice}.
 	\caption{ring modulator ltspice prototype}
 	\label{fig:ring-mod-spice}
 \end{figure}
+
+the next step is to manage a \ssb transmitter. the basic process for \ssb
+modulation is to modulate an in-phase \amp quadrature signal with the original
+signal \amp its hilbert transform, respectively, as described in
+\autocite{matlab-ssb}. this, however, requires a hilbert transformer\ldots\
+which is apparently often implemented approximately with a filter, and in the
+digital realm!
