@@ -1,0 +1,49 @@
+\documentclass[12pt]{article}
+\usepackage[paperheight=1in,paperwidth=1.2941in]{geometry}
+
+\usepackage[absolute]{textpos}
+\TPGrid{1}{1}
+
+\pagenumbering{gobble}
+\setlength{\parindent}{0pt}
+
+\usepackage{fontspec}
+\newfontfamily\oefamily{Lobster Two}
+
+\usepackage{pgfornament}
+\usepackage{graphicx}
+
+\begin{document}
+
+% main title
+\textblockorigin{.35in}{.32in}
+
+\begin{textblock}{1}(-.05, 0.01)
+	\oefamily\itshape\tiny Mixed-Signal
+\end{textblock}
+
+\begin{textblock}{0}(-0.18, .12)
+	\oefamily\itshape\Huge R
+\end{textblock}
+
+\begin{textblock}{0}(0, .13)
+	\oefamily\itshape\large adio
+\end{textblock}
+
+\begin{textblock}{0}(0, .3)
+	\scalebox{.3}{\pgfornament[width=1in]{83}}
+\end{textblock}
+
+\textblockorigin{.8in}{.3in}
+
+\begin{textblock}{1}(0, 0)
+	\tiny\oefamily
+
+	\scalebox{.6}{Evan Murphy} \\
+	\scalebox{.6}{Jeongwoo Yoon} \\
+	\scalebox{.6}{Jin Wook Lee} \\
+	\scalebox{.6}{Thomas Coor} \\
+	\scalebox{.6}{Catherine Van West}
+\end{textblock}
+
+\end{document}
