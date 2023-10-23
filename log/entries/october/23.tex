@@ -23,5 +23,12 @@ which is apparently often implemented approximately with a filter, and in the
 digital realm!
 
 i decided to fiddle with \ssb modulation in octave to see if i could come up
-with a good way to do it. the code may be found in
-\localfile{../work/am-mod/code/ssb.m}.
+with a good way to do it, starting with basic info about the behavior of the
+hilbert transform. the code may be found in
+\localfile{../work/am-mod/code/ssb.m}. initial conclusions were that \ssb is
+mathematically feasible, but generation of the appropriate input signal was the
+sticking point.
+
+actual architectures for creating a quadrature phase shifter are described in
+\autocite{wideband-shifter} and \autocite{audio-shifter}. these were used as
+inspiration for the rest of the work here.
