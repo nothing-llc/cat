@@ -2,8 +2,9 @@
 % Cat VW, October `23
 
 clc; clear; close all;
+pkg load signal;
 
-function plot_fft(s)
+function plot_fft(s, name)
 	S = fft(s);
 	half_length = round(length(S)/2);
 	S_half = S(1:half_length);
@@ -11,28 +12,35 @@ function plot_fft(s)
 	figure;
 	subplot(2, 1, 1);
 	plot(abs(S_half));
-	title('magnitude');
+	title(['magnitude: ' name]);
 	xlim([1 half_length]);
 
 	subplot(2, 1, 2);
 	plot(unwrap(angle(S_half)));
-	title('phase');
+	title(['phase: ' name]);
 	xlim([1 half_length]);
 end
 
 % parameters
 N = 1024;
-w_carrier = 500;
-w_mod = 44;
-
-cos_sin = @(w, x) [cos(w*x) sin(w*x)];
-
+w_env = 5;
+w_if = 66;
+w_rf = 300;
 x = linspace(0, 2*pi, N)';
-carrier = cos_sin(w_carrier, x); % I & Q; needed for Hilbert SSB
-signal = cos_sin(w_mod, x); % signal & its Hilbert transform
 
-mod_carrier = carrier.*signal;
-transmission = sum(mod_carrier, 2);
+% functions
+cos_sin = @(x) [cos(x) sin(x)];
+triangle = @(x) sawtooth(x, .5);
 
-plot_fft(mod_carrier(:, 1));
-plot_fft(transmission);
+envelope = triangle(w_env*x);
+if_carrier = cos_sin(w_if*x); % signal & its approx. Hilbert transform
+rf_carrier = cos_sin(w_rf*x); % I & Q; needed for Hilbert SSB
+
+mod_if = envelope.*if_carrier;
+mod_rf = mod_if.*rf_carrier;
+
+transmission = sum(mod_rf, 2);
+
+plot_fft(mod_if(:, 1), 'modulated IF');
+plot_fft(mod_rf(:, 1), 'modulated RF');
+plot_fft(transmission, 'transmission');

@@ -6,3 +6,9 @@ get out what is very nearly a hilbert transform of the original! this \emph{is}
 the hartley architecture -- thank goodness he actually stated it!
 
 \ldots assuming i correctly understand how it works, that is.
+
+after some investigation\ldots\ hartley may not be the way to go. razavi
+mentions the weaver architecture, which requires four (!) mixers but has better
+phase and amplitude behavior, so we may try that one instead. the basic idea is
+to modulate the audio signal up a bit, filter it, then modulate it all the way
+to the \rf carrier.
