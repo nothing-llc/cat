@@ -11,12 +11,14 @@ function plot_fft(s, name)
 
 	figure;
 	subplot(2, 1, 1);
-	plot(abs(S_half));
-	title(['magnitude: ' name]);
+	plot(20*log10(abs(S_half)));
+	grid on;
+	title(['dB: ' name]);
 	xlim([1 half_length]);
 
 	subplot(2, 1, 2);
 	plot(unwrap(angle(S_half)));
+	grid on;
 	title(['phase: ' name]);
 	xlim([1 half_length]);
 end
