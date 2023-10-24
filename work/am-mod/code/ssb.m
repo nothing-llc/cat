@@ -37,11 +37,11 @@ end
 
 %% parameters
 N = 2^10; % samples
-time = 2; % second
-f_env = 3;
-f_env_min = 3; % minimum frequency we care about in the envelope
-f_if = 30;
-f_rf = 100;
+time = 1e-3; % second
+f_env = 4.4e3;
+f_env_min = 200; % minimum frequency we care about in the envelope
+f_if = 10e3;
+f_rf = 100e3;
 x = linspace(0, time, N)';
 
 %% dependent parameters
@@ -72,7 +72,7 @@ mod_rf = filt_if.*rf_carrier;
 transmission = sum(mod_rf, 2);
 
 %plot_fft(rf_carrier, 'RF carrier', fs);
-%plot_fft(mod_if(:, 1), 'modulated IF', fs);
+plot_fft(mod_if(:, 1), 'modulated IF', fs);
 plot_fft(filt_if(:, 1), 'filtered IF', fs);
 %plot_fft(mod_rf(:, 1), 'modulated RF', fs);
 plot_fft(transmission, 'transmission', fs);
