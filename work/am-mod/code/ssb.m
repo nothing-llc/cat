@@ -39,7 +39,7 @@ end
 N = 2^10; % samples
 time = 2; % second
 f_env = 3;
-f_env_min = 1; % minimum frequency we care about in the envelope
+f_env_min = 3; % minimum frequency we care about in the envelope
 f_if = 30;
 f_rf = 100;
 x = linspace(0, time, N)';
@@ -56,7 +56,7 @@ triangle = @(x) sawtooth(2*pi*x, .5);
 Wp = fn_if - fn_env_min;
 Ws = fn_if + fn_env_min;
 Rp = 1; % dB ripple
-Rs = 1.5; % dB rejection
+Rs = 12; % dB rejection
 [order, Wc_s, Wc_p] = cheb2ord(Wp, Ws, Rp, Rs);
 [b, a] = cheby2(order, Rs, Wc_s);
 
@@ -71,8 +71,8 @@ mod_rf = filt_if.*rf_carrier;
 
 transmission = sum(mod_rf, 2);
 
-plot_fft(rf_carrier, 'RF carrier', fs);
+%plot_fft(rf_carrier, 'RF carrier', fs);
 %plot_fft(mod_if(:, 1), 'modulated IF', fs);
-%plot_fft(filt_if(:, 1), 'filtered IF', fs);
+plot_fft(filt_if(:, 1), 'filtered IF', fs);
 %plot_fft(mod_rf(:, 1), 'modulated RF', fs);
-%plot_fft(transmission, 'transmission', fs);
+plot_fft(transmission, 'transmission', fs);
