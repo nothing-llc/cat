@@ -32,6 +32,25 @@
 \begin{document}
 \maketitle
 
+\section{Introduction}
+Single-sideband modulation (hereafter \ssb modulation or just \ssb) is a
+modulation scheme which decreases the bandwidth use of ordinary amplitude
+modulation (\am) by a factor of two \autocite{ssb-thaddeus}. Ordinary \am
+implemented using a single mixer produces two sidebands around the carrier
+frequency (optionally with a strong component at the carrier itself). Since the
+modulating signal is usually purely real, one of these sidebands is redundant
+and may be eliminated without loss of information. Additionally, \ssb
+modulation often suppresses the carrier, fully or partially, reducing the
+amount of power needed to transmit the signal \autocite{weaver-rowell}.
+
+This report examines the mathematics behind \am \amp \ssb, including basic
+properties of the Hilbert transform. It also gives an overview of a few
+potential implementations, including both Hartley and Weaver modulators, and
+discusses the advantages and shortcomings of each.
+
+\section{Amplitude Modulation}
+
+
 \printbibliography
 
 \end{document}
