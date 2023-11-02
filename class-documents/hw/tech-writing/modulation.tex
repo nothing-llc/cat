@@ -5,6 +5,9 @@
 \usepackage{hyperref}
 \usepackage{xspace}
 
+\usepackage{graphicx}
+\graphicspath{{images/}}
+
 \usepackage{setspace}
 \doublespacing
 
@@ -43,13 +46,43 @@ and may be eliminated without loss of information. Additionally, \ssb
 modulation often suppresses the carrier, fully or partially, reducing the
 amount of power needed to transmit the signal \autocite{weaver-rowell}.
 
-This report examines the mathematics behind \am \amp \ssb, including basic
-properties of the Hilbert transform. It also gives an overview of a few
-potential implementations, including both Hartley and Weaver modulators, and
-discusses the advantages and shortcomings of each.
+This report examines the mathematics behind \am \amp \ssb, including a few
+properties of the Hilbert transform. Basic familiarity with Euler's formula is
+assumed. It also gives an overview of a few potential implementations,
+including both Hartley and Weaver modulators, and discusses the advantages and
+shortcomings of each.
 
 \section{Amplitude Modulation}
 
+\newcommand{\oin}{\omega_\text{in}}
+\newcommand{\olo}{\omega_\text{lo}}
+
+To illustrate the behavior of ordinary \am, consider a sinusoidal signal \(s(t)
+= \cos \omega t\). Using Euler's formula, \(e^{jt} = \cos t + j \sin t\), we
+may represent this as \(s(t) = \frac 1 2 (e^{j \omega t} + e^{- j \omega t})\).
+Note that a single real sinusoid consists of two complex sinusoids at positive
+and negative frequencies. If a baseband signal \(\cos \oin t\) is mixed with a
+carrier signal \(\cos \olo t\), the result is
+\begin{align*}
+	\left(\cos \oin t\right) \left(\cos \olo t\right)
+		&= \frac 1 2 (e^{j \oin t} + e^{-j \oin t})
+			\cdot \frac 1 2 (e^{j \olo t} + e^{-j \olo t}) \\
+		&= \frac 1 4 (
+			e^{j (\olo \pm \oin) t} + e^{-j (\olo \pm \oin) t}
+		) \\
+		&= \frac 1 2 \cos (\olo \pm \oin) t.
+\end{align*}
+The modulated signal contains frequency components both above and below the
+carrier, although these both have the same information content. The results of
+modulation are illustrated in figure \ref{fig:razavi-am}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{razavi-am.png}
+	\caption{Amplitude modulation of a baseband signal
+	\autocite{rf-microelectronics}.}
+	\label{fig:razavi-am}
+\end{figure}
 
 \printbibliography
 
