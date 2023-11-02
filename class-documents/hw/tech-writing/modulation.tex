@@ -54,7 +54,7 @@ assumed. It also gives an overview of a few potential implementations,
 including both Hartley and Weaver modulators, and discusses the advantages and
 shortcomings of each.
 
-\section*{Mathematics}
+\section*{The Phasing Method}
 
 \newcommand{\oin}{\omega_\text{in}}
 \newcommand{\olo}{\omega_\text{lo}}
@@ -88,15 +88,15 @@ modulation are illustrated in figure \ref{fig:razavi-am}.
 	\label{fig:razavi-am}
 \end{figure}
 
-The mathematical means of suppressing one of the sidebands is using the Hilbert
-transform. The Hilbert transform is equivalent to a filter with transfer
-function \(H(\omega) = -j \sign \omega\). Applying this filter to a  sinusoid
-\(\cos \omega t = \frac 1 2 (e^{j \omega t} + e^{-j \omega t})\) yields \(\frac
-1 2 (-j e^{j \omega t} + j e^{-j \omega t}) = \sin \omega t\) -- in other
-words, taking the Hilbert transform of a signal shifts all real frequency
-components by \(\frac \pi 2\). For \ssb, the baseband signal is modulated twice
--- once in its original form, and once after passing it through a Hilbert
-transformer \autocite{ssb-tretter}.
+One means of suppressing one of the sidebands, known as the \emph{phasing
+method}, is done using the Hilbert transform. The Hilbert transform is
+equivalent to a filter with transfer function \(H(\omega) = -j \sign \omega\).
+Applying this filter to a  sinusoid \(\cos \omega t = \frac 1 2 (e^{j \omega t}
++ e^{-j \omega t})\) yields \(\frac 1 2 (-j e^{j \omega t} + j e^{-j \omega t})
+= \sin \omega t\) -- in other words, taking the Hilbert transform of a signal
+shifts all real frequency components by \(\frac \pi 2\). For \ssb, the baseband
+signal is modulated twice -- once in its original form, and once after passing
+it through a Hilbert transformer \autocite{ssb-tretter}.
 
 If this process is applied to the same sinusoidal signals as above, yielding
 \(s(t) = \cos \oin t \) and its Hilbert transform \(\hat s(t) = \sin \oin t\).
@@ -131,8 +131,19 @@ leaving only the lower sideband.
 Demodulation functions as modulation in reverse -- the \rf signal is multiplied
 by in-phase and quadrature components of a local oscillator, inverse Hilbert
 transformed, then added back together to form the baseband signal. The Hartley
-architecture is one example implementation, used since the early days of radio;
-the Weaver architecture is another \autocite{rf-microelectronics}.
+architecture is one example implementation, used since the early days of radio
+\autocite{rf-microelectronics}.
+
+\section{The Weaver Architecture}
+
+The phasing method allows \ssb generation with a single modulation step and
+works with input signals of unknown bandwidth. The only difficulty with this
+method is implementation of an accurate wideband Hilbert transformer. Using
+\textsc{dsp} techniques on the original signal allows relatively easy
+generation of its Hilbert transform \autocite{ssb-tretter}; in analog circuits,
+however, the transform must be performed by a wideband phase shift network,
+which makes rejection ratios above 40 dB quite difficult to achieve
+\autocite{weaver-himself}.
 
 \printbibliography
 
