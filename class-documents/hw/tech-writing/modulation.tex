@@ -52,7 +52,7 @@ assumed. It also gives an overview of a few potential implementations,
 including both Hartley and Weaver modulators, and discusses the advantages and
 shortcomings of each.
 
-\section{Amplitude Modulation}
+\section{Mathematics}
 
 \newcommand{\oin}{\omega_\text{in}}
 \newcommand{\olo}{\omega_\text{lo}}
@@ -83,6 +83,10 @@ modulation are illustrated in figure \ref{fig:razavi-am}.
 	\autocite{rf-microelectronics}.}
 	\label{fig:razavi-am}
 \end{figure}
+
+The mathematical means of suppressing one of the sidebands is using the Hilbert
+transform. The baseband signal is modulated twice -- once in its original form,
+and once after passing it through a Hilbert transformer.
 
 \printbibliography
 
