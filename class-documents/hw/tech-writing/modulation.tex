@@ -25,7 +25,7 @@
 \newcommand{\ac}{\textsc{ac}\xspace}
 \newcommand{\am}{\textsc{am}\xspace}
 \newcommand{\dc}{\textsc{dc}\xspace}
-\newcommand{\fm}{\textsc{fm}\xspace}
+\newcommand{\rf}{\textsc{am}\xspace}
 \newcommand{\ssb}{\textsc{ssb}\xspace}
 
 \DeclareMathOperator{\sign}{sign}
@@ -67,11 +67,13 @@ and negative frequencies. If a baseband signal \(\cos \oin t\) is mixed with a
 carrier signal \(\cos \olo t\), the result is
 \begin{align*}
 	\left(\cos \oin t\right) \left(\cos \olo t\right)
-		&= \frac 1 2 (e^{j \oin t} + e^{-j \oin t})
-			\cdot \frac 1 2 (e^{j \olo t} + e^{-j \olo t}) \\
-		&= \frac 1 4 (
+		&= \frac 1 2 \left(e^{j \oin t} + e^{-j \oin t}\right)
+			\cdot \frac 1 2 \left(
+				e^{j \olo t} + e^{-j \olo t}
+			\right) \\
+		&= \frac 1 4 \left(
 			e^{j (\olo \pm \oin) t} + e^{-j (\olo \pm \oin) t}
-		) \\
+		\right) \\
 		&= \frac 1 2 \cos (\olo \pm \oin) t.
 \end{align*}
 The modulated signal contains frequency components both above and below the
@@ -88,13 +90,49 @@ modulation are illustrated in figure \ref{fig:razavi-am}.
 
 The mathematical means of suppressing one of the sidebands is using the Hilbert
 transform. The Hilbert transform is equivalent to a filter with transfer
-function \(H(\omega) = -j \sign \omega\) -- in other words, taking the Hilbert
-transform of a signal shifts all real frequency components by \(\pi/2\). For
-\ssb, the baseband signal is modulated twice -- once in its original form, and
-once after passing it through a Hilbert transformer \autocite{ssb-tretter}.
+function \(H(\omega) = -j \sign \omega\). Applying this filter to a  sinusoid
+\(\cos \omega t = \frac 1 2 (e^{j \omega t} + e^{-j \omega t})\) yields \(\frac
+1 2 (-j e^{j \omega t} + j e^{-j \omega t}) = \sin \omega t\) -- in other
+words, taking the Hilbert transform of a signal shifts all real frequency
+components by \(\frac \pi 2\). For \ssb, the baseband signal is modulated twice
+-- once in its original form, and once after passing it through a Hilbert
+transformer \autocite{ssb-tretter}.
 
 If this process is applied to the same sinusoidal signals as above, yielding
 \(s(t) = \cos \oin t \) and its Hilbert transform \(\hat s(t) = \sin \oin t\).
+These signals are then modulated with \(\cos \olo t\) and \(\sin \olo t\),
+respectively, to produce in-phase and quadrature components of the output:
+\begin{align*}
+	I(t) &= s(t) \cos \olo t \\
+		&= \frac 1 4 \left(
+			e^{j (\olo \pm \oin) t} + e^{-j (\olo \pm \oin) t}
+		\right) \text{ by the above, and} \\
+	Q(t) &= \hat s(t) \sin \olo t \\
+		&= \frac 1 2 \left(-j e^{j \oin t} + j e^{-j \oin t}\right)
+			\cdot \frac 1 2 \left(
+				-j e^{j \olo t} + j e^{-j \olo t}\right
+			) \\
+		&= \frac 1 4 \left(
+			-e^{\pm j (\oin + \olo) t} + e^{\pm j (\oin - \olo)}
+		\right) \text { after distributing.}
+\end{align*}
+Note that, although expressed in terms of complex sinusoids, both \(I(t)\) and
+\(Q(t)\) are \emph{real} signals; the process above may be implemented in
+analog hardware. Sideband selection is performed by either adding or
+subtracting \(I(t)\) and \(Q(t)\) -- for example, adding yields
+\begin{align*}
+	I(t) + Q(t) &= \frac 1 4 \left(
+		2 e^{j (\olo - \oin) t} + 2 e^{-j (\olo - \oin) t}
+	\right) \\
+	&= \cos (\olo - \oin) t \text{ after canceling \(\pm \sin\),}
+\end{align*}
+leaving only the lower sideband.
+
+Demodulation functions as modulation in reverse -- the \rf signal is multiplied
+by in-phase and quadrature components of a local oscillator, inverse Hilbert
+transformed, then added back together to form the baseband signal. The Hartley
+architecture is one example implementation, used since the early days of radio;
+the Weaver architecture is another \autocite{rf-microelectronics}.
 
 \printbibliography
 
