@@ -28,6 +28,8 @@
 \newcommand{\fm}{\textsc{fm}\xspace}
 \newcommand{\ssb}{\textsc{ssb}\xspace}
 
+\DeclareMathOperator{\sign}{sign}
+
 \title{\textsc{On SSB Modulation}}
 \author{Catherine Van West}
 \date{Autumn, `23}
@@ -85,8 +87,14 @@ modulation are illustrated in figure \ref{fig:razavi-am}.
 \end{figure}
 
 The mathematical means of suppressing one of the sidebands is using the Hilbert
-transform. The baseband signal is modulated twice -- once in its original form,
-and once after passing it through a Hilbert transformer.
+transform. The Hilbert transform is equivalent to a filter with transfer
+function \(H(\omega) = -j \sign \omega\) -- in other words, taking the Hilbert
+transform of a signal shifts all real frequency components by \(\pi/2\). For
+\ssb, the baseband signal is modulated twice -- once in its original form, and
+once after passing it through a Hilbert transformer \autocite{ssb-tretter}.
+
+If this process is applied to the same sinusoidal signals as above, yielding
+\(s(t) = \cos \oin t \) and its Hilbert transform \(\hat s(t) = \sin \oin t\).
 
 \printbibliography
 
