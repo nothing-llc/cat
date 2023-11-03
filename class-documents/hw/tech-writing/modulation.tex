@@ -168,27 +168,55 @@ above schema, the first in-phase and quadrature signals \(I_1(t)\) \amp
 \ref{fig:weaver-from-paper}) are
 \begin{align*}
 	I_1(t) &= \frac 1 4 \left(
-			e^{j (\oo \pm \oin) t} + e^{-j (\oo \pm \oin) t}
-		\right) \text{ and} \\
-	Q_1(t) &= \frac 1 4 \left(
-			-e^{\pm j (\oo + \oin) t} + e^{\pm j (\oo - \oin) t}
+			e^{j (\oin \pm \oo) t} + e^{-j (\oin \pm \oo) t}
+		\right) \text{ (as before), and} \\
+	Q_1(t) &= \frac 1 2 \left(e^{j \oin t} + e^{-j \oin t}\right)
+			\cdot \frac 1 2 \left(
+				-j e^{j \oo t} + j e^{-j \oo t}\right
+			) \\
+		&= \frac 1 2 \left(
+			-j e^{j (\oo \pm \oin) t} + j e^{-j (\oo \pm \oin) t}
 		\right).
 \end{align*}
-Lowpass filtering the above signals with a cutoff at \(\oo\) yields
-(approximately)
+Lowpass filtering the above signals with a (perfect) cutoff at \(\oo\) yields
 \begin{align*}
 	I_f(t) &= \frac 1 4 \left(
 			e^{j (\oo - \oin) t} + e^{-j (\oo - \oin) t}
 		\right) \text{ and} \\
 	Q_f(t) &= \frac 1 4 \left(
-			e^{j (\oo - \oin) t} + e^{-j (\oo - \oin) t}
+			-j e^{j (\oo - \oin) t} + j e^{-j (\oo - \oin) t}
 		\right).
 \end{align*}
-
 Note that the lowpass filter's transition band can be as much as \(2 \oin\)
 wide -- this band can be as wide as twice the lowest frequency component of the
 input signal while still preserving functionality \autocite{weaver-rowell}.
-After the second modulation stage and summation, we have\ldots to be continued.
+After the second modulation stage and summation, we have
+\begin{align*}
+	I_2(t) &= \frac 1 4 \left(
+			e^{j (\oo - \oin) t} + e^{-j (\oo - \oin) t}
+		\right) \cdot \frac 1 2 \left(
+			e^{j \oc t} + e^{-j \oc t}
+		\right) \\
+		&= \frac 1 8 \left(
+			e^{j (\oo - \oin \pm \oc) t}
+			+ e^{-j (\oo - \oin \pm \oc) t}
+		\right) \text{, and} \\
+	Q_2(t) &= \frac 1 4 \left(
+			-j e^{j (\oo - \oin) t} + j e^{-j (\oo - \oin) t}
+		\right) \cdot \frac 1 2 \left(
+			-j e^{j \oc t} + j e^{-j \oc t}
+		\right) \\
+		&= \frac 1 8 \left(
+			e^{\pm j (\oo - \oin - \oc) t}
+			- e^{\pm j (\oo - \oin + \oc) t}
+		\right),
+\end{align*}
+so our transmission \(T(t)\) is (after rearranging)
+\[
+	T(t) = I_2(t) + Q_2(t) = \frac 1 4 e^{\pm j (\oc - \oo + \oin) t}
+		= \frac 1 2 \cos\, (\oc - \oo + \oin) t,
+\]
+an upper \ssb signal centered at \(\oc - \oo\).
 
 \printbibliography
 
