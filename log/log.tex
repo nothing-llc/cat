@@ -29,7 +29,9 @@
 % https://tex.stackexchange.com/questions/555670/how-to-turn-string-into-command
 % and
 % https://tex.stackexchange.com/questions/51733/global-renewcommand-equivalent-of-global-def
-\def\abbrevs{arrl,jfet,mosfet,rf,fcc,pll,vco,lc,vxo,am,fm,ac,dc,smd,lna,ssb}
+\def\abbrevs{%
+	arrl,jfet,mosfet,rf,fcc,pll,vco,lc,vxo,am,fm,ac,dc,smd,lna,ssb,pwm%
+}
 
 \makeatletter
 \def\gnewcommand{\g@star@or@long\new@command}

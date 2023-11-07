@@ -2,3 +2,12 @@ finally building today! using the \textsc{cd74hc4046ae} as a \pll building
 block to start with, with the capacitor/resistor values given in the datasheet
 for the \vco, powered with a 5 V supply. with 2.5 V applied to the \vco's
 control terminal, the output frequency (for our chip) was around 14.7 MHz.
+managed to achieve phase lock to a 10 MHz oscillator using the chip's
+\textsc{pc3 out} pin and a variable capacitor in the \vco, so this can be done
+but is not yet stable.
+
+a very stable lock is achievable around 350 kHz center frequency! apparently we
+just need to lower the freq. of the phase comparator, etc. adding a few
+\textsc{74ls163} dividers allowed synthesis of a (relatively) stable 14 MHz
+signal from an input around 440 kHz. next step is to try this \pll with a
+teensy's \pwm output setting the reference frequency.
