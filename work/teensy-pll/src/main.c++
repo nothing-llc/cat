@@ -4,8 +4,7 @@
 #define LED_BUILTIN 13
 #endif
 
-#define PWM_PIN LED_BUILTIN
-
+constexpr const int pwm_pin = LED_BUILTIN;
 constexpr const int pll_ratio = 32;
 
 constexpr int pwm_freq(double target_mhz) {
@@ -13,9 +12,9 @@ constexpr int pwm_freq(double target_mhz) {
 }
 
 void setup() {
-	pinMode(PWM_PIN, OUTPUT);
+	pinMode(pwm_pin, OUTPUT);
 	analogWriteFrequency(13, pwm_freq(14.000));
-	analogWrite(PWM_PIN, 0x7F);
+	analogWrite(pwm_pin, 0x7F);
 }
 
 void loop() {
