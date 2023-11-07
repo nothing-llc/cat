@@ -1,10 +1,6 @@
 #include "Arduino.h"
 
-#ifndef LED_BUILTIN
-#define LED_BUILTIN 13
-#endif
-
-constexpr const int pwm_pin = LED_BUILTIN;
+constexpr const int pwm_pin = 9;
 constexpr const int pll_ratio = 32;
 
 constexpr int pwm_freq(double target_mhz) {
@@ -13,7 +9,7 @@ constexpr int pwm_freq(double target_mhz) {
 
 void setup() {
 	pinMode(pwm_pin, OUTPUT);
-	analogWriteFrequency(13, pwm_freq(14.000));
+	analogWriteFrequency(pwm_pin, pwm_freq(14.000));
 	analogWrite(pwm_pin, 0x7F);
 }
 
