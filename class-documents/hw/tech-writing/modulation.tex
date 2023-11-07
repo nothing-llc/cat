@@ -1,0 +1,244 @@
+\documentclass[12pt]{article}
+\usepackage[letterpaper, margin=1in]{geometry}
+
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xspace}
+
+\usepackage{graphicx}
+\graphicspath{{images/}}
+
+\usepackage{setspace}
+\doublespacing
+
+\usepackage[backend=biber,style=ieee,hyperref=true]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{fontspec}
+\usepackage{kpfonts}
+\fontspec{baskervaldx}
+\setmainfont[Numbers=OldStyle]{baskervaldx}
+\setmonofont[Scale=.9]{Courier New}
+
+\newcommand{\amp}{\textit{\&}\xspace}
+
+\newcommand{\ac}{\textsc{ac}\xspace}
+\newcommand{\am}{\textsc{am}\xspace}
+\newcommand{\dc}{\textsc{dc}\xspace}
+\newcommand{\rf}{\textsc{am}\xspace}
+\newcommand{\ssb}{\textsc{ssb}\xspace}
+
+\DeclareMathOperator{\sign}{sign}
+
+\title{\textsc{On SSB Modulation}}
+\author{\vspace{-.8em} Catherine Van West \\
+	\normalsize For \textsc{ece395} at The Cooper Union}
+\date{Autumn, `23}
+
+\begin{document}
+\maketitle
+
+\section*{Introduction}
+Single-sideband modulation (hereafter \ssb modulation or just \ssb) is a
+modulation scheme which decreases the bandwidth use of ordinary amplitude
+modulation (\am) by a factor of two \autocite{ssb-thaddeus}. Ordinary \am
+implemented using a single mixer produces two sidebands around the carrier
+frequency (optionally with a strong component at the carrier itself). Since the
+modulating signal is usually purely real, one of these sidebands is redundant
+and may be eliminated without loss of information. Additionally, \ssb
+modulation often suppresses the carrier, fully or partially, reducing the
+amount of power needed to transmit the signal \autocite{weaver-rowell}.
+
+This report examines the mathematics behind \am \amp \ssb, including a few
+properties of the Hilbert transform. Basic familiarity with Euler's formula is
+assumed. The treatment given here is specifically in light of the Hartley and
+Weaver architectures, and briefly discusses the advantages and disadvantages of
+each.
+
+\section*{The Phasing Method}
+
+\newcommand{\oin}{\omega_\text{in}}
+\newcommand{\olo}{\omega_\text{lo}}
+
+To illustrate the behavior of ordinary \am, consider a sinusoidal signal \(s(t)
+= \cos \omega t\). Using Euler's formula, \(e^{jt} = \cos t + j \sin t\), we
+may represent this as \(s(t) = \frac 1 2 (e^{j \omega t} + e^{- j \omega t})\).
+Note that a single real sinusoid consists of two complex sinusoids at positive
+and negative frequencies. If a baseband signal \(\cos \oin t\) is mixed with a
+carrier signal \(\cos \olo t\), the result is
+\begin{align*}
+	\left(\cos \oin t\right) \left(\cos \olo t\right)
+		&= \frac 1 2 \left(e^{j \oin t} + e^{-j \oin t}\right)
+			\cdot \frac 1 2 \left(
+				e^{j \olo t} + e^{-j \olo t}
+			\right) \\
+		&= \frac 1 4 \left(
+			e^{j (\olo \pm \oin) t} + e^{-j (\olo \pm \oin) t}
+		\right) \\
+		&= \frac 1 2 \cos (\olo \pm \oin) t.
+\end{align*}
+The modulated signal contains frequency components both above and below the
+carrier, although these both have the same information content. The results of
+modulation are illustrated in figure \ref{fig:razavi-am}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{razavi-am.png}
+	\caption{Amplitude modulation of a baseband signal
+	\autocite{rf-microelectronics}.}
+	\label{fig:razavi-am}
+\end{figure}
+
+One means of suppressing one of the sidebands, known as the \emph{phasing
+method}, is done using the Hilbert transform. The Hilbert transform is
+equivalent to a filter with transfer function \(H(\omega) = -j \sign \omega\).
+Applying this filter to a  sinusoid \(\cos \omega t = \frac 1 2 (e^{j \omega t}
++ e^{-j \omega t})\) yields \(\frac 1 2 (-j e^{j \omega t} + j e^{-j \omega t})
+= \sin \omega t\) -- in other words, taking the Hilbert transform of a signal
+shifts all real frequency components by \(\frac \pi 2\). For \ssb, the baseband
+signal is modulated twice -- once in its original form, and once after passing
+it through a Hilbert transformer \autocite{ssb-tretter}.
+
+If this process is applied to the same sinusoidal signals as above, yielding
+\(s(t) = \cos \oin t \) and its Hilbert transform \(\hat s(t) = \sin \oin t\).
+These signals are then modulated with \(\cos \olo t\) and \(\sin \olo t\),
+respectively, to produce in-phase and quadrature components of the output:
+\begin{align*}
+	I(t) &= s(t) \cos \olo t \\
+		&= \frac 1 4 \left(
+			e^{j (\olo \pm \oin) t} + e^{-j (\olo \pm \oin) t}
+		\right) \text{ by the above, and} \\
+	Q(t) &= \hat s(t) \sin \olo t \\
+		&= \frac 1 2 \left(-j e^{j \oin t} + j e^{-j \oin t}\right)
+			\cdot \frac 1 2 \left(
+				-j e^{j \olo t} + j e^{-j \olo t}\right
+			) \\
+		&= \frac 1 4 \left(
+			-e^{\pm j (\oin + \olo) t} + e^{\pm j (\oin - \olo) t}
+		\right) \text { after distributing.}
+\end{align*}
+Note that, although expressed in terms of complex sinusoids, both \(I(t)\) and
+\(Q(t)\) are \emph{real} signals; the process above may be implemented in
+analog hardware. Sideband selection is performed by either adding or
+subtracting \(I(t)\) and \(Q(t)\) -- for example, adding yields
+\begin{align*}
+	I(t) + Q(t) &= \frac 1 4 \left(
+		2 e^{j (\olo - \oin) t} + 2 e^{-j (\olo - \oin) t}
+	\right) \\
+	&= \cos (\olo - \oin) t \text{ after canceling \(\pm \sin\),}
+\end{align*}
+leaving only the lower sideband.
+
+Demodulation functions as modulation in reverse -- the \rf signal is multiplied
+by in-phase and quadrature components of a local oscillator, inverse Hilbert
+transformed, then added back together to form the baseband signal. The Hartley
+architecture is one example implementation, used since the early days of radio
+\autocite{rf-microelectronics}.
+
+\section*{The Weaver Architecture}
+
+\newcommand{\oo}{\omega_o}
+\newcommand{\oc}{\omega_c}
+
+The phasing method allows \ssb generation with a single modulation step and
+works with input signals of unknown bandwidth. The only difficulty with this
+method is implementation of an accurate wideband Hilbert transformer. Using
+\textsc{dsp} techniques on the original signal allows relatively easy
+generation of its Hilbert transform \autocite{ssb-tretter}.
+
+In analog circuits, however, the transform must be performed by a wideband
+phase shift network, which makes rejection ratios above 40 dB quite difficult
+to achieve The Weaver architecture, reproduced in figure
+\ref{fig:weaver-from-paper}, offers an alternative method to generate \ssb
+signals so long as the baseband signal is sufficiently bandlimited. The input
+signal is modulated four times -- twice in both in-phase and quadrature -- and
+lowpass filtered midway through. The main advantage of the Weaver method is
+that the requirements on the filters are quite lenient, easing analog
+implementation \autocite{weaver-himself}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{weaver-from-paper.png}
+	\caption{A Weaver modulator \autocite{weaver-himself}.}
+	\label{fig:weaver-from-paper}
+\end{figure}
+
+If the same sinusoid, \(s(t) = \cos \oin t\), is modulated using the
+above schema, the first in-phase and quadrature signals \(I_1(t)\) \amp
+\(Q_1(t)\) (corresponding to \(e_{a1}\) \amp \(e_{b1}\) in figure
+\ref{fig:weaver-from-paper}) are
+\begin{align*}
+	I_1(t) &= \frac 1 4 \left(
+			e^{j (\oin \pm \oo) t} + e^{-j (\oin \pm \oo) t}
+		\right) \text{ (as before), and} \\
+	Q_1(t) &= \frac 1 2 \left(e^{j \oin t} + e^{-j \oin t}\right)
+			\cdot \frac 1 2 \left(
+				-j e^{j \oo t} + j e^{-j \oo t}\right
+			) \\
+		&= \frac 1 2 \left(
+			-j e^{j (\oo \pm \oin) t} + j e^{-j (\oo \pm \oin) t}
+		\right).
+\end{align*}
+Lowpass filtering the above signals with a (perfect) cutoff at \(\oo\) yields
+\begin{align*}
+	I_f(t) &= \frac 1 4 \left(
+			e^{j (\oo - \oin) t} + e^{-j (\oo - \oin) t}
+		\right) \text{ and} \\
+	Q_f(t) &= \frac 1 4 \left(
+			-j e^{j (\oo - \oin) t} + j e^{-j (\oo - \oin) t}
+		\right).
+\end{align*}
+Note that the lowpass filter's transition band can be as much as \(2 \oin\)
+wide -- this band can be as wide as twice the lowest frequency component of the
+input signal while still preserving functionality \autocite{weaver-rowell}.
+After the second modulation stage and summation, we have
+\begin{align*}
+	I_2(t) &= \frac 1 4 \left(
+			e^{j (\oo - \oin) t} + e^{-j (\oo - \oin) t}
+		\right) \cdot \frac 1 2 \left(
+			e^{j \oc t} + e^{-j \oc t}
+		\right) \\
+		&= \frac 1 8 \left(
+			e^{j (\oo - \oin \pm \oc) t}
+			+ e^{-j (\oo - \oin \pm \oc) t}
+		\right) \text{, and} \\
+	Q_2(t) &= \frac 1 4 \left(
+			-j e^{j (\oo - \oin) t} + j e^{-j (\oo - \oin) t}
+		\right) \cdot \frac 1 2 \left(
+			-j e^{j \oc t} + j e^{-j \oc t}
+		\right) \\
+		&= \frac 1 8 \left(
+			e^{\pm j (\oo - \oin - \oc) t}
+			- e^{\pm j (\oo - \oin + \oc) t}
+		\right),
+\end{align*}
+so our transmission \(T(t)\) is (after rearranging)
+\[
+	T(t) = I_2(t) + Q_2(t) = \frac 1 4 e^{\pm j (\oc - \oo + \oin) t}
+		= \frac 1 2 \cos\, (\oc - \oo + \oin) t,
+\]
+an upper \ssb signal centered at \(\oc - \oo\).
+
+\section*{Practicality}
+D. K. Weaver gives a practical implementation example (reproduced in figure
+\ref{fig:weaver-impl}), which, though dated, serves to demonstrate the
+simplicity of the Weaver method. The circuit comprises sixteen diodes and eight
+transformers, four of which are air-core high-frequency types. Given its
+relative simplicity, the circuit is an attractive candidate for a simple analog
+\ssb radio -- which was its original intent. Both of the above methods of
+modulation are studied and used in both transmitters and receivers
+\autocite{ssb-thaddeus}, \autocite{rf-microelectronics}.
+
+\pagebreak
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.9\textwidth]{weaver-impl.png}
+	\caption{An implementation of a Weaver modulator
+	\autocite{weaver-himself}.}
+	\label{fig:weaver-impl}
+\end{figure}
+
+\printbibliography
+
+\end{document}
