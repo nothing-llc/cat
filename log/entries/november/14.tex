@@ -1,0 +1,15 @@
+\subsection*{engineering}
+working from home today, as i'm likely contagious. decided to play with
+obtaining a quadrature signal from the \pll without using a coupled
+oscillator\ldots\ and i found a way (see
+\localfile{../work/pll-shifter/pll-shifter.asc}). i basically made a
+differentiator to do it, which would be straightforward except that we don't
+have op-amps which run at 14 MHz. so i took a common-base amplifier, fed a
+capacitively-coupled input in, and took the quadrature signal from the output
+(the capacitor produces a 90\textdegree\ phase shift between voltage and
+current, and the common-base amp, due to its low input impedance, basically
+converts that into a voltage). to improve the quality of the shift (up to
+87\textdegree\ if we're feeling expensive or 85\textdegree\ if we want to save
+power), i added some negative feedback which decreased the input impedance even
+further. i shall remember this technique for making low input impedance
+amplifiers at high frequencies; it was quite handy!
