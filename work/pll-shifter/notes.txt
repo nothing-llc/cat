@@ -1,0 +1,4 @@
+see: https://www.mathworks.com/help/dsp/ug/arbitrary-magnitude-and-phase-filter-design.html
+
+note: transistor choice is very important here! switching to LTspice's default
+NPN model made for a phase shift of about 89° (up from 85° with a 2N3904).
