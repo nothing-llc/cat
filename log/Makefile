@@ -1,4 +1,4 @@
-entries=$(wildcard entries/october/*.tex entries/november/*.tex entries/december/*.tex)
+entries=$(wildcard entries/october/*.tex entries/november/*.tex entries/december/*.tex entries/february/*.tex)
 
 # work out the macro to pass to latex so it knows what to do
 space=$(eval) $(eval)
