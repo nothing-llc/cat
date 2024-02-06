@@ -5,13 +5,12 @@ space=$(eval) $(eval)
 comma=,
 logentries=$(subst $(space),$(comma),$(entries))
 
-log.pdf: log.tex references.bib $(entries) $(wildcard figures/**)
+out/log.pdf: log.tex references.bib $(entries) $(wildcard figures/**)
 	latexmk -g \
 		-auxdir=aux/ -outdir=out/ \
 		-usepretex='\def\logentries{$(logentries)}' \
 		$<
-	cp out/log.pdf .
 
 .PHONY: clean
 clean:
-	rm -rf log.pdf aux/ out/
+	rm -rf aux/ out/
