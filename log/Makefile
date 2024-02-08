@@ -1,14 +1,20 @@
-entries=$(wildcard entries/october/*.tex entries/november/*.tex entries/december/*.tex entries/february/*.tex)
+months=october november december february
+entries=$(wildcard $(patsubst %,entries/%/*.tex,$(months)))
+figures=$(patsubst %,{figures/%/},$(months))
 
-# work out the macro to pass to latex so it knows what to do
+# work out the macros to pass to latex so it knows what to do
 space=$(eval) $(eval)
 comma=,
 logentries=$(subst $(space),$(comma),$(entries))
+figuredirs=$(subst $(space),$(comma),$(figures))
+pretex=\def\logentries{$(logentries)}\def\figuredirs{{$(figuredirs)}}
+
+export pretexcode
 
 out/log.pdf: log.tex references.bib $(entries) $(wildcard figures/**)
 	latexmk -g \
 		-auxdir=aux/ -outdir=out/ \
-		-usepretex='\def\logentries{$(logentries)}' \
+		-usepretex='$(pretex)' \
 		$<
 
 .PHONY: clean
