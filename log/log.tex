@@ -25,13 +25,21 @@
 \newcommand{\amp}{\textit{\&}\xspace}
 \newcommand{\pr}{\textsc}
 
+\newcommand{\typicalfigure}[2]{%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.7\textwidth]{#1}
+		\caption{#2}
+	\end{figure}%
+}
+
 % create a bunch of abbreviation commands; see
 % https://tex.stackexchange.com/questions/555670/how-to-turn-string-into-command
 % and
 % https://tex.stackexchange.com/questions/51733/global-renewcommand-equivalent-of-global-def
 \def\abbrevs{%
 	arrl,jfet,mosfet,rf,fcc,pll,vco,lc,vxo,am,fm,ac,dc,smd,lna,ssb,pwm,%
-	dsb,dsp%
+	dsb,dsp,fvf%
 }
 
 \makeatletter
