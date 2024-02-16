@@ -1,0 +1,13 @@
+back to the \pll today; apparently j saw a \emph{lot} of spectral spread on the
+output and i want to track it down. it seems that the teensy \emph{itself} has
+similar spread, so we may have to use a different clock source\dots
+
+re-checked with the scope's function generator -- and the teensy -- and we have
+peaks 20 dB down and pretty far away, so maybe this isn't an issue? the teensy
+seems capable of producing an 800 kHz signal, so we can at least decrease the
+division ratio to 16 (which pushes the adjacent peaks further away).
+
+discovered something interesting while fucking around with the \pll settings
+for the teensy: there's a limited granularity of about 70 kHz! that's really
+too wide for our tastes, so we may have to use a frequency synth controlled via
+\spi.
