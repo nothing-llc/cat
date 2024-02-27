@@ -1,3 +1,12 @@
 due to illness, life stuff, etc., been out of the loop for a while. today's
 task: thomas \amp i read data from an \adc. we'll be using the \textsc{ad7478}
 from analog devices.
+
+reading from the \adc turned out to be quite easy -- the \spi interface worked
+nearly first try. to do:
+\begin{enumerate}
+	\item read really fast. maybe process a large buffer of \spi data at
+	once.
+	\item see about using data-out from the teensy as the chip select pin
+	for speed.
+\end{enumerate}
