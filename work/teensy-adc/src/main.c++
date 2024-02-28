@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 
+#include <cstdint>
+
 constexpr const int select_pin = 10;
 
 void deselect() {
@@ -20,15 +22,12 @@ void setup() {
 	Serial.begin(115200);
 }
 
-unsigned short counter = 0;
-static_assert(sizeof(counter) == 2, "augh!");
+const size_t buffer_length = 2*2;
+uint8_t buffer[buffer_length];
 
 void loop() {
-	select();
-	int received = SPI.transfer16(++counter);
-	deselect();
-
-	Serial.print("\e[G\e[Kcall me? received = ");
-	Serial.print(received);
-	delay(100);
+	SPI.transfer(buffer, buffer_length);
+	for (size_t i = 0; i < buffer_length; ++i) {
+		buffer[i] = i & 1;
+	}
 }
