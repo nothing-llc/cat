@@ -15,4 +15,9 @@ add_executable(data-inlet
 pico_enable_stdio_usb(data-inlet 1)
 pico_enable_stdio_uart(data-inlet 1)
 pico_add_extra_outputs(data-inlet)
-target_link_libraries(data-inlet pico_stdlib hardware_spi)
+
+target_link_libraries(data-inlet
+	pico_stdlib
+	hardware_spi
+	hardware_dma
+)
