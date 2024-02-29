@@ -1,3 +1,7 @@
 porting to the pico today, as best we can. platformio does not seem to like the
 pico, so we'll be running using \verb`picotool` (most likely) and the pico c++
 sdk.
+
+\textit{update later:} works brilliantly! i'm using direct memory access for
+\spi data transfer so that the processor is not hung while doing data
+acquisition. we'll have two free cores for \dsp, after all!
