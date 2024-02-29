@@ -122,7 +122,7 @@ int main() {
 			sum += (rx_buffer[i] << 4) + (rx_buffer[i + 1] >> 4);
 		}
 		double average = sum / (buffer_length/2) * (3.3/0xff);
-		printf("\e[G\e[Kaverage voltage: %0.2f V", average);
+		printf("\e[G\e[Kaverage voltage: %0.3f V", average);
 
 		sleep_ms(100);
 	}
