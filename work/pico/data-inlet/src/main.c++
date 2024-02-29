@@ -43,8 +43,6 @@ int main() {
 	annotate_program();
 	stdio_init_all();
 
-	sleep_ms(5000);
-
 	// set up spi pins
 	spi_init(spi_default, 20e6);
 	gpio_set_function(PICO_DEFAULT_SPI_RX_PIN, GPIO_FUNC_SPI);
@@ -96,30 +94,39 @@ int main() {
 		false // don't start yet
 	);
 
-	// start both channels simultaneously
-	puts("starting dma channels...");
-	dma_start_channel_mask((1u << tx_channel) | (1u << rx_channel));
-	dma_channel_wait_for_finish_blocking(rx_channel);
-	puts("finished. doing some analysis...");
+	while (true) {
+		dma_channel_configure(
+			tx_channel, &tx_config,
+			&spi_get_hw(spi_default)->dr, // write address
+			tx_buffer, // read address
+			buffer_length, // element count
+			false // don't start yet
+		);
 
-	double sum = 0;
-	for (size_t i = 0; i < buffer_length; ++i) {
-		sum += rx_buffer[i];
+		dma_channel_configure(
+			rx_channel, &rx_config,
+			rx_buffer,
+			&spi_get_hw(spi_default)->dr, // read address
+			buffer_length, // element count
+			false // don't start yet
+		);
+
+		// start both channels simultaneously
+		dma_start_channel_mask(
+			(1u << tx_channel) | (1u << rx_channel)
+		);
+		dma_channel_wait_for_finish_blocking(rx_channel);
+
+		double sum = 0;
+		for (size_t i = 0; i < buffer_length - 1; i += 2) {
+			sum += (rx_buffer[i] << 4) + (rx_buffer[i + 1] >> 4);
+		}
+		double average = sum / (buffer_length/2) * (3.3/0xff);
+		printf("\e[G\e[Kaverage voltage: %0.2f V", average);
+
+		sleep_ms(100);
 	}
-	printf("average voltage: %f\n", sum/buffer_length);
 
 	dma_channel_unclaim(tx_channel);
 	dma_channel_unclaim(rx_channel);
-	return 0; // XXX
-
-	while (1) {
-		spi_write_read_blocking(
-			spi_default, tx_buffer, rx_buffer, buffer_length
-		);
-		printf(
-			"\e[G\e[Kread voltage from spi: %d",
-			(rx_buffer[0] << 8) + rx_buffer[1]
-		);
-		sleep_ms(100);
-	}
 }
