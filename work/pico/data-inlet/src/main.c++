@@ -46,15 +46,21 @@ int main() {
 
 	while (true) {
 		adc.start();
-		adc.wait();
 
-		double sum = 0;
+		long unsigned int sum = 0;
 		for (size_t i = 0; i < buffer_length - 1; i += 2) {
 			sum += (adc[i] << 4) + (adc[i + 1] >> 4);
 		}
-		double average = sum / (buffer_length/2) * (3.3/0xff);
-		printf("\e[G\e[Kaverage voltage: %0.3f V", average);
+		volatile double average = sum / (buffer_length/2) * (3.3/0xff);
+		auto start = get_absolute_time();
 
-		sleep_ms(100);
+		adc.wait(true);
+		auto free_time = absolute_time_diff_us(
+			start, get_absolute_time()
+		);
+		printf(
+			"\e[G\e[Kaverage voltage: %0.3f V; free time: %d us",
+			average, free_time
+		);
 	}
 }

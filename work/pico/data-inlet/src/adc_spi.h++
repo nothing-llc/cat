@@ -10,6 +10,11 @@
 #include <cstdint>
 #include <array>
 
+/*
+ * represents a double-buffered adc interfaced via spi. whichever rx buffer is
+ * selected will be available for the user to read from; the other one will be
+ * filled by calls to `start()`.
+ */
 template <size_t buffer_length>
 class adc_spi {
 	static_assert(buffer_length % 2 == 0, "buffer length cannot be odd");
@@ -27,15 +32,21 @@ public:
 	~adc_spi();
 
 	inline uint8_t& operator[] (size_t pos) {
-		return rx_buffer[pos];
+		return rx_buffers[which_rx][pos];
+	}
+
+	// switch which buffer we will read into next
+	inline void switch_rx_buffer() {
+		which_rx ^= 1;
 	}
 
 	// rewind both channels, then start reading/writing
 	inline void start();
 
 	// wait to finish reading
-	inline void wait() {
+	inline void wait(bool switch_rx = true) {
 		dma_channel_wait_for_finish_blocking(rx_channel);
+		if (switch_rx) switch_rx_buffer();
 	}
 
 private:
@@ -49,7 +60,8 @@ private:
 	dma_channel_config rx_config;
 	
 	buffer_type tx_buffer;
-	buffer_type rx_buffer;
+	std::array<buffer_type, 2> rx_buffers;
+	uint8_t which_rx;
 
 	inline void fill_for_tx() {
 		for (size_t i = 0; i < buffer_length; ++i) {
@@ -60,7 +72,6 @@ private:
 	inline void dma_channel_init(
 		int& channel,
 		dma_channel_config& config,
-		buffer_type& buffer,
 		bool is_tx
 	);
 
@@ -75,7 +86,7 @@ adc_spi<buffer_length>::adc_spi(
 	uint spi_tx_pin,
 	uint spi_rx_pin,
 	uint spi_sck_pin
-) : spi(spi), baud(baud) {
+) : spi(spi), baud(baud), which_rx(0) {
 	// set up spi pins
 	spi_init(spi, baud);
 	gpio_set_function(spi_tx_pin,  GPIO_FUNC_SPI);
@@ -83,8 +94,8 @@ adc_spi<buffer_length>::adc_spi(
 	gpio_set_function(spi_sck_pin, GPIO_FUNC_SPI);
 
 	// set up channels
-	dma_channel_init(tx_channel, tx_config, tx_buffer, true);
-	dma_channel_init(rx_channel, rx_config, rx_buffer, false);
+	dma_channel_init(tx_channel, tx_config, true);
+	dma_channel_init(rx_channel, rx_config, false);
 
 	// prep the transmit buffer
 	fill_for_tx();
@@ -109,7 +120,6 @@ template <size_t buffer_length>
 void adc_spi<buffer_length>::dma_channel_init(
 	int& channel,
 	dma_channel_config& config,
-	buffer_type& buffer,
 	bool is_tx
 ) {
 	// much of this code is verbatim from the example
@@ -148,7 +158,7 @@ template <size_t buffer_length>
 inline void adc_spi<buffer_length>::rewind_rx() {
 	dma_channel_configure(
 		rx_channel, &rx_config,
-		rx_buffer.data(), // write address
+		rx_buffers[which_rx ^ 1].data(), // write address
 		&spi_get_hw(spi)->dr, // read address
 		buffer_length, // element count
 		false // don't start yet
