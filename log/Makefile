@@ -1,4 +1,4 @@
-months=october november december february
+months=october november december february march
 entries=$(wildcard $(patsubst %,entries/%/*.tex,$(months)))
 figures=$(patsubst %,{figures/%/},$(months))
 
