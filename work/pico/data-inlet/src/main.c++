@@ -3,9 +3,9 @@
  * 
  * copyright (c) 2024  catherine van west <catherine.vanwest@cooper.edu>
  */
-#include "adc_spi.h++"
-#include "reference_freq.h++"
-#include "hardware/pwm.h"
+
+#include "adc_spi.h"
+#include "reference_freq.h"
 #include "pico/binary_info.h"
 #include "pico/stdlib.h"
 #include <cstdint>

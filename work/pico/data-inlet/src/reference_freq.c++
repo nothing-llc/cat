@@ -1,4 +1,4 @@
-#include "reference_freq.h++"
+#include "reference_freq.h"
 
 #include "hardware/pwm.h"
 

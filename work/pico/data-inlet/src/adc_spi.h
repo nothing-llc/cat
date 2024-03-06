@@ -4,6 +4,10 @@
  * 
  * copyright (c) 2024  catherine van west <catherine.vanwest@cooper.edu>
  */
+
+#ifndef ADC_SPI_H
+#define ADC_SPI_H
+
 #include "hardware/dma.h"
 #include "hardware/spi.h"
 #include "pico/stdlib.h"
@@ -164,3 +168,5 @@ inline void adc_spi<buffer_length>::rewind_rx() {
 		false // don't start yet
 	);
 }
+
+#endif

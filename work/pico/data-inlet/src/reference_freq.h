@@ -4,6 +4,10 @@
  *
  * copyright (c) 2024  catherine van west <catherine.vanwest@cooper.edu>
  */
+
+#ifndef REFERENCE_FREQ_H
+#define REFERENCE_FREQ_H
+
 #include "pico/stdlib.h"
 
 namespace reference_freq {
@@ -17,3 +21,5 @@ void set_mhz(float freq, bool start = true);
 float actual_freq(float freq);
 
 } /* ~reference_freq:: */
+
+#endif
