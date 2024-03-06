@@ -6,3 +6,6 @@ buffer while doing \dsp from the other buffer. for a simple averaging
 calculation, this leaves 500 \textmu s spare time for a 1.3 ms loop time. we
 should be able to pull this off! the changeover gap left in the read is about 1
 \textmu s long, corresponding to one dropped sample per buffer.
+
+also worked out the reference signal for the \pll -- we have about 12 kHz
+channel separation at minimum, which hopefully will work for us.
