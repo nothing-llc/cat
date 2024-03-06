@@ -4,6 +4,8 @@
  * copyright (c) 2024  catherine van west <catherine.vanwest@cooper.edu>
  */
 #include "adc_spi.h++"
+#include "reference_freq.h++"
+#include "hardware/pwm.h"
 #include "pico/binary_info.h"
 #include "pico/stdlib.h"
 #include <cstdint>
@@ -29,10 +31,7 @@ void annotate_program() {
 	));
 }
 
-int main() {
-	annotate_program();
-	stdio_init_all();
-
+void adc_test() {
 	// get ready for spi
 	const size_t buffer_length = 16*1024;
 	const uint baud = 21e6; // 20.8 MHz spi clock ⇒ 1.0965 MHz sample rate
@@ -63,4 +62,33 @@ int main() {
 			average, free_time
 		);
 	}
+}
+
+void pwm_test() {
+	reference_freq::mostly_configure();
+	reference_freq::set_mhz(14.000);
+
+	float freq = 14.000;
+	while (true) {
+		freq += .01;
+		if (freq > 14.350) freq = 14.000;
+
+		reference_freq::set_mhz(freq);
+		printf(
+			"now running at %.3f (%.3f) MHz\n",
+			freq, reference_freq::actual_freq(freq)
+		);
+
+		sleep_ms(10e3);
+	}
+}
+
+int main() {
+	annotate_program();
+	stdio_init_all();
+
+//	adc_test();
+	pwm_test();
+
+	for (;;) tight_loop_contents();
 }

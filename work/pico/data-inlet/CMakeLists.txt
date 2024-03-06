@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 pico_sdk_init()
 add_executable(data-inlet
 	src/main.c++
+	src/reference_freq.c++
 )
 
 pico_enable_stdio_usb(data-inlet 1)
@@ -17,7 +18,8 @@ pico_enable_stdio_uart(data-inlet 1)
 pico_add_extra_outputs(data-inlet)
 
 target_link_libraries(data-inlet
-	pico_stdlib
-	hardware_spi
 	hardware_dma
+	hardware_pwm
+	hardware_spi
+	pico_stdlib
 )
