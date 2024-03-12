@@ -87,8 +87,8 @@ int main() {
 	annotate_program();
 	stdio_init_all();
 
-//	adc_test();
-	pwm_test();
+	adc_test();
+//	pwm_test();
 
 	for (;;) tight_loop_contents();
 }
