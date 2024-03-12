@@ -12,7 +12,7 @@ pretex=\def\logentries{$(logentries)}\def\figuredirs{{$(figuredirs)}}
 export pretexcode
 
 out/log.pdf: log.tex references.bib $(entries) $(wildcard figures/**)
-	latexmk -g \
+	latexmk -silent -g \
 		-auxdir=aux/ -outdir=out/ \
 		-usepretex='$(pretex)' \
 		$<
