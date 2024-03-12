@@ -1,13 +1,14 @@
 /*
  * main pico code. pretty self-explanatory, hopefully.
- * 
+ *
  * copyright (c) 2024  catherine van west <catherine.vanwest@cooper.edu>
  */
 
 #include "adc_spi.h"
-#include "reference_freq.h"
 #include "pico/binary_info.h"
 #include "pico/stdlib.h"
+#include "reference_freq.h"
+#include <cmath>
 #include <cstdint>
 #include <cstdio>
 
@@ -43,23 +44,42 @@ void adc_test() {
 		PICO_DEFAULT_SPI_SCK_PIN
 	);
 
+	const uint8_t half_voltage = static_cast<uint8_t>(3.3/2 * 0xff/3.3);
+	const double sampling_rate = 1.0965e6; // in Hz
+
 	while (true) {
 		adc.start();
 
-		long unsigned int sum = 0;
-		for (size_t i = 0; i < buffer_length - 1; i += 2) {
-			sum += (adc[i] << 4) + (adc[i + 1] >> 4);
+		int64_t index_diff_sum = 0;
+		size_t zero_crossings = 0;
+
+		size_t last_index = 0;
+		bool sign = std::signbit(adc[0] - half_voltage);
+		for (size_t i = 1; i < buffer_length - 1; i += 2) {
+			// watch for zero crossings and record them
+			if (sign ^ std::signbit(adc[i] - half_voltage)) {
+				sign = !sign;
+				index_diff_sum += i - last_index;
+				last_index = i;
+				++zero_crossings;
+			}
 		}
-		volatile double average = sum / (buffer_length/2) * (3.3/0xff);
-		auto start = get_absolute_time();
+
+		const double index_diff_average =
+			static_cast<double>(index_diff_sum)/zero_crossings;
+		const double freq_average = sampling_rate/index_diff_average;
+
+		auto start_of_free = get_absolute_time();
 
 		adc.wait(true);
-		auto free_time = absolute_time_diff_us(
-			start, get_absolute_time()
+		int64_t free_time = absolute_time_diff_us(
+			start_of_free, get_absolute_time()
 		);
 		printf(
-			"\e[G\e[Kaverage voltage: %0.3f V; free time: %d us",
-			average, free_time
+			"\e[G\e[Kaverage freq: %0.3f kHz"
+			"; z.c.s: %zu"
+			"; free time: %ld us",
+			freq_average/1e3, zero_crossings, free_time
 		);
 	}
 }
