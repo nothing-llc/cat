@@ -34,7 +34,7 @@ void annotate_program() {
 
 void adc_test() {
 	// get ready for spi
-	const size_t buffer_length = 16*1024;
+	const size_t buffer_length = 8*1024;
 	const uint baud = 21e6; // 20.8 MHz spi clock ⇒ 1.0965 MHz sample rate
 	adc_spi<buffer_length> adc(
 		spi_default,
@@ -67,7 +67,8 @@ void adc_test() {
 
 		const double index_diff_average =
 			static_cast<double>(index_diff_sum)/zero_crossings;
-		const double freq_average = sampling_rate/index_diff_average;
+		const double freq_average =
+			sampling_rate/(index_diff_average*2);
 
 		auto start_of_free = get_absolute_time();
 
@@ -77,9 +78,8 @@ void adc_test() {
 		);
 		printf(
 			"\e[G\e[Kaverage freq: %0.3f kHz"
-			"; z.c.s: %zu"
 			"; free time: %ld us",
-			freq_average/1e3, zero_crossings, free_time
+			freq_average/1e3, free_time
 		);
 	}
 }

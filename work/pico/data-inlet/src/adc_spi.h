@@ -1,7 +1,7 @@
 /*
  * main data acquisition for the radio. partially stolen from the spi_dma
  * example in the pico-examples repo.
- * 
+ *
  * copyright (c) 2024  catherine van west <catherine.vanwest@cooper.edu>
  */
 
@@ -17,26 +17,28 @@
 /*
  * represents a double-buffered adc interfaced via spi. whichever rx buffer is
  * selected will be available for the user to read from; the other one will be
- * filled by calls to `start()`.
+ * filled by calls to `start()`. `half_buffer_length` is half the length of the
+ * actual internal `uint8_t` buffers, due to the bit alignment of the reads.
  */
-template <size_t buffer_length>
+template <size_t half_buffer_length>
 class adc_spi {
-	static_assert(buffer_length % 2 == 0, "buffer length cannot be odd");
-
 public:
+	constexpr const static size_t buffer_length = 2*half_buffer_length;
 	using buffer_type = std::array<uint8_t, buffer_length>;
 
 	adc_spi(
 		spi_inst_t* spi,
 		uint baud,
 		uint spi_tx_pin,
-		uint spi_rx_pin, 
+		uint spi_rx_pin,
 		uint spi_sck_pin
 	);
 	~adc_spi();
 
-	inline uint8_t& operator[] (size_t pos) {
-		return rx_buffers[which_rx][pos];
+	inline uint8_t operator[] (size_t pos) {
+		const size_t internal_pos = pos << 1;
+		return (rx_buffers[which_rx][internal_pos] << 4) +
+		       (rx_buffers[which_rx][internal_pos + 1] >> 4);
 	}
 
 	// switch which buffer we will read into next
@@ -62,7 +64,7 @@ private:
 	int rx_channel;
 	dma_channel_config tx_config;
 	dma_channel_config rx_config;
-	
+
 	buffer_type tx_buffer;
 	std::array<buffer_type, 2> rx_buffers;
 	uint8_t which_rx;
