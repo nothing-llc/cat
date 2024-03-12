@@ -40,8 +40,8 @@ end
 %% parameters
 N = 8*1024; % samples
 fs = 1e6; % Hz
-f_if = 115e3; % Hz
-f_mod = 2.5e3; % Hz
+f_if = 455e3; % Hz
+f_mod = 400; % Hz
 
 %% signal creation
 n = 0:(N - 1);
@@ -56,8 +56,8 @@ signal_in = inter.*mod;
 phase_offset = 1.4; % rad
 other_inter = cos(wd_if*n + phase_offset);
 
-Wp = 3e3/(fs/2);
-Ws = 4e3/(fs/2);
+Wp = 6e3/(fs/2);
+Ws = 7e3/(fs/2);
 Rp = 1; % dB ripple
 Rs = 30; % dB rejection
 
@@ -66,13 +66,15 @@ Rs = 30; % dB rejection
 
 after_mult = signal_in.*other_inter;
 filtered = filter(b, a, after_mult);
+
+plot_fft(signal_in, 'signal in', fs);
 plot_fft(after_mult, 'after mult', fs);
 plot_fft(filtered, 'filtered', fs);
 
 figure;
 subplot(2, 1, 1);
-plot(after_mult);
-title('after mult');
+plot(mod);
+title('modulation');
 subplot(2, 1, 2);
 plot(filtered);
 title('filtered');
