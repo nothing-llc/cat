@@ -1,1 +1,11 @@
 took a break over break (from this, at least).
+
+today: \am demodulation. getting audio out synched with data in is
+\emph{tricky}; turns out the frequencies are not carefully controlled enough
+for it to ``just work,'' so i had to pull some magic \dma stuff. in the end, we
+got simple \am demodulation code working, though it's noisy and we don't really
+have an \textsc{if} set in the pico yet.
+
+\emph{to do:} somehow make the intermediate frequency more stable; there seems
+to be a phase jump each time we loop around the buffer. maybe enter the buffer
+at a different point in the cycle each time? we'll see.
