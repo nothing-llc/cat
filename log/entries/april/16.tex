@@ -20,3 +20,11 @@ came up with a second draft, basically the same but with one fewer transistor.
 	\includegraphics[width=0.7\textwidth]{if-amp-draft-2.png}
 	\caption{same thing, basically.}
 \end{figure}
+
+ok. that was one thing for today. the other was supply stabilization: i found
+~10 mV of noise at the output of our lab supplies, which caused the distortion
+j and evan saw at the output of the \lna. filtered it out with about 50 \textmu
+H of inductance in series with both sides of the supply, along with a few
+capacitors; this cleaned up the \lna beautifully, leaving nearly 20 dB of gain
+past the band-pass \rf filter. i have a great deal more respect for radio power
+supplies now!
