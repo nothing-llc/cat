@@ -13,7 +13,7 @@ export pretexcode
 
 out/log.pdf: log.tex references.bib $(entries) $(wildcard figures/**)
 	latexmk -silent -g \
-		-auxdir=aux/ -outdir=out/ \
+		-auxdir=aux -outdir=out \
 		-usepretex='$(pretex)' \
 		$<
 
