@@ -1,2 +1,10 @@
 more testing today. i really want to run a full-chain test, so\dots\ i'm going
 to.
+
+added 510 \ohm of resistance to ground to the output of the \ifreq filter,
+replacing the matching network -- caused oscillation with the amps otherwise.
+also added 10 \textmu H of inductance to both power and ground lines between
+the fixed and variable-gain stages of the \ifreq amp, which curbed oscillation
+at high gain. the circuit now amplifies 200 \textmu V to about 2.2 V p-p,
+through the filter, no oscillation. time to connect the \rf stage, i should
+think!
